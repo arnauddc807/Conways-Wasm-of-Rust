@@ -7,7 +7,9 @@ web app that installs to an iPhone home screen or wraps into a native app.
 **▶︎ Play it: <https://arnauddc807.github.io/Conways-Wasm-of-Rust/>**
 
 Open that on an iPhone in Safari and use **Share → Add to Home Screen** to
-install it as an app.
+install it as an app. Every push deploys the site; see
+[docs/IOS.md](docs/IOS.md#1-install-from-safari-fastest) for the one-time
+setting that turns Pages on.
 
 made using [wasm-pack](https://github.com/rustwasm/wasm-pack) & [create-wasm-app](https://github.com/rustwasm/create-wasm-app)
 

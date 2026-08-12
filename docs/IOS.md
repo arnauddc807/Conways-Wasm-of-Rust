@@ -14,12 +14,18 @@ Everything the web app needs for both paths is already in the repository.
 
 ## 1. Install from Safari (fastest)
 
-The site is already hosted, deployed by `.github/workflows/pages.yml` on every
-push:
+`.github/workflows/pages.yml` builds the wasm and the bundle and publishes them
+to GitHub Pages on every push:
 
 **<https://arnauddc807.github.io/Conways-Wasm-of-Rust/>**
 
 Open it in **Safari** on the phone → **Share** → **Add to Home Screen**.
+
+> **One-time setup.** Pages has to be switched on by hand before the first
+> deploy: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+> A workflow cannot do this for you — the token Actions runs with is not
+> allowed to create a Pages site. Once it is on, re-run the Deploy workflow
+> from the Actions tab, and every push after that deploys on its own.
 
 It launches full-screen with no browser chrome, keeps its own icon, and works
 offline after the first load. HTTPS is required — the service worker that
