@@ -1,39 +1,45 @@
 {
-  "name": "create-wasm-app",
+  "name": "conways-wasm-of-rust",
   "version": "0.1.0",
-  "description": "create an app to consume rust-generated wasm packages",
+  "description": "Conway's Game of Life in Rust and WebAssembly, packaged for iOS",
   "main": "index.js",
-  "bin": {
-    "create-wasm-app": ".bin/create-wasm-app.js"
-  },
+  "private": true,
   "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "start": "webpack-dev-server"
+    "start": "webpack serve",
+    "build": "webpack --mode production",
+    "ios:sync": "npm run build && cap sync ios",
+    "ios:add": "npm run build && cap add ios",
+    "ios:open": "cap open ios"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rustwasm/create-wasm-app.git"
+    "url": "git+https://github.com/Arnauddc807/Conways-Wasm-of-Rust.git"
   },
   "keywords": [
     "webassembly",
     "wasm",
     "rust",
-    "webpack"
+    "webpack",
+    "ios",
+    "capacitor",
+    "game-of-life"
   ],
-  "author": "Ashley Williams <ashley666ashley@gmail.com>",
+  "author": "Arnaud De Cuyper <arnaud.de.cuyper@telenet.be>",
   "license": "(MIT OR Apache-2.0)",
   "bugs": {
-    "url": "https://github.com/rustwasm/create-wasm-app/issues"
+    "url": "https://github.com/Arnauddc807/Conways-Wasm-of-Rust/issues"
   },
-  "homepage": "https://github.com/rustwasm/create-wasm-app#readme",
+  "homepage": "https://github.com/Arnauddc807/Conways-Wasm-of-Rust#readme",
   "dependencies": {
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/ios": "^6.0.0",
     "wasm-game-of-life": "file:../pkg"
   },
   "devDependencies": {
-    "hello-wasm-pack": "^0.1.0",
-    "webpack": "^4.29.3",
-    "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.5",
-    "copy-webpack-plugin": "^5.0.0"
+    "@capacitor/cli": "^6.0.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "webpack": "^5.90.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.2"
   }
 }
