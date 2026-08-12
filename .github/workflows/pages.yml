@@ -1,0 +1,64 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [master, app]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it half way; queued
+# deploys collapse to the newest.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: jetli/wasm-pack-action@v0.4.0
+      - name: Build wasm
+        run: wasm-pack build
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install
+        run: npm ci
+        working-directory: www
+      - name: Build site
+        run: npm run build
+        working-directory: www
+
+      # Pages would otherwise run the output through Jekyll, which drops files
+      # and directories whose names start with an underscore.
+      - name: Disable Jekyll
+        run: touch www/dist/.nojekyll
+
+      # No `configure-pages` step: it exists to hand a base URL to static site
+      # generators, and every path here is relative, so the site does not care
+      # which subpath it is served from. Its `enablement` option cannot turn
+      # Pages on either — the default GITHUB_TOKEN is not allowed to create a
+      # Pages site, so that has to be done once in the repository settings.
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: www/dist
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

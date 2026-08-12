@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [master, app]
+  pull_request:
+
+jobs:
+  rust:
+    name: Rust
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+      - name: Test
+        run: cargo test
+      - name: Clippy
+        run: cargo clippy --all-targets -- -D warnings
+      - name: Formatting
+        run: cargo fmt --check
+
+  web:
+    name: Web bundle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: jetli/wasm-pack-action@v0.4.0
+      - name: Build wasm
+        run: wasm-pack build
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install
+        run: npm ci
+        working-directory: www
+      - name: Build
+        run: npm run build
+        working-directory: www
+      - name: Check the built site is complete
+        # The bundle is only useful if the assets the page references came with
+        # it — a stale copy step silently shipped a dist without its stylesheet
+        # once already.
+        run: |
+          for f in index.html bootstrap.js style.css manifest.webmanifest sw.js \
+                   icons/apple-touch-icon.png icons/icon-192.png icons/icon-512.png; do
+            test -f "dist/$f" || { echo "missing from dist: $f"; exit 1; }
+          done
+          ls dist/*.wasm >/dev/null || { echo "no wasm in dist"; exit 1; }
+        working-directory: www
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-bundle
+          path: www/dist

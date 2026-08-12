@@ -1,0 +1,12 @@
+{
+  "appId": "com.arnauddecuyper.gameoflife",
+  "appName": "Game of Life",
+  "webDir": "dist",
+  "backgroundColor": "#12071F",
+  "ios": {
+    "preferredContentMode": "mobile",
+    "contentInset": "never",
+    "scrollEnabled": false,
+    "backgroundColor": "#12071F"
+  }
+}

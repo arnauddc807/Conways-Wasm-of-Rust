@@ -4,3 +4,12 @@ Cargo.lock
 bin/
 pkg/
 wasm-pack.log
+
+# Capacitor generates the Xcode project from capacitor.config.json; the parts
+# below are build output or per-developer state.
+www/ios/App/Pods/
+www/ios/App/App/public/
+www/ios/App/Podfile.lock
+DerivedData/
+*.xcuserstate
+xcuserdata/

@@ -1,23 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Conway's Game of Life</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- `viewport-fit=cover` lets the canvas run under the notch and the home
+         indicator; the CSS then pads the chrome back out with safe-area insets.
+         Locking the scale stops a double tap or a two-finger pinch on the grid
+         from zooming the page. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+    <title>Game of Life</title>
+    <meta name="description" content="Conway's Game of Life, simulated in Rust and WebAssembly.">
+
+    <!-- Home-screen install (iOS reads these; `mobile-web-app-capable` is the
+         standards-track spelling other browsers use). -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Game of Life">
+    <meta name="theme-color" content="#12071F">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+
+    <link rel="stylesheet" href="./style.css">
   </head>
   <body>
-    <noscript>This page contains webassembly and javascript content, please enable javascript in your browser.</noscript>
-    <canvas id="game-of-live-canvas"></canvas>
-    <div id="buttons">
-      <h1>Conway's Game of Life</h1>
-      <p id="label">50</p>
-      <input type="range" min="0" max="100" value="50" class="slider" id="slider">
-      <button id="reset">Reset</button>
-      <div id="mediakeys">
-        <button id="play">⏯</button>
-        <button id="step">⏭</button>
+    <noscript>This page contains WebAssembly and JavaScript content, please enable JavaScript in your browser.</noscript>
+
+    <main id="stage">
+      <canvas id="game-of-life-canvas"></canvas>
+
+      <div id="hud">
+        <span id="generation">Gen 0</span>
+        <span id="population">0 alive</span>
       </div>
-    </div>
+    </main>
+
+    <footer id="controls">
+      <div id="speed-row">
+        <label for="speed">Speed</label>
+        <input type="range" min="1" max="60" value="20" id="speed" aria-describedby="speed-value">
+        <output id="speed-value" for="speed">20 fps</output>
+      </div>
+
+      <div id="density-row">
+        <label for="density">Density</label>
+        <input type="range" min="0" max="100" value="35" id="density" aria-describedby="density-value">
+        <output id="density-value" for="density">35%</output>
+      </div>
+
+      <div id="buttons">
+        <button id="play" class="primary" aria-label="Play or pause">▶︎<span class="label">Play</span></button>
+        <button id="step" aria-label="Advance one generation">⏭<span class="label">Step</span></button>
+        <button id="random" aria-label="Fill with random cells">🎲<span class="label">Random</span></button>
+        <button id="glider" aria-label="Add a glider">✦<span class="label">Glider</span></button>
+        <button id="clear" aria-label="Clear the grid">✕<span class="label">Clear</span></button>
+      </div>
+
+      <p id="hint">Tap a cell to bring it to life — drag to draw.</p>
+    </footer>
+
     <script src="./bootstrap.js"></script>
   </body>
 </html>
