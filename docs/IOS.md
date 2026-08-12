@@ -14,10 +14,12 @@ Everything the web app needs for both paths is already in the repository.
 
 ## 1. Install from Safari (fastest)
 
-Host the contents of `www/dist/` on any HTTPS URL (GitHub Pages, Netlify,
-Cloudflare Pages — it is all static files), then on the phone:
+The site is already hosted, deployed by `.github/workflows/pages.yml` on every
+push:
 
-Open the URL in **Safari** → **Share** → **Add to Home Screen**.
+**<https://arnauddc807.github.io/Conways-Wasm-of-Rust/>**
+
+Open it in **Safari** on the phone → **Share** → **Add to Home Screen**.
 
 It launches full-screen with no browser chrome, keeps its own icon, and works
 offline after the first load. HTTPS is required — the service worker that

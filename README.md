@@ -4,6 +4,11 @@
 The simulation is Rust compiled to WebAssembly; the front end is a touch-first
 web app that installs to an iPhone home screen or wraps into a native app.
 
+**▶︎ Play it: <https://arnauddc807.github.io/Conways-Wasm-of-Rust/>**
+
+Open that on an iPhone in Safari and use **Share → Add to Home Screen** to
+install it as an app.
+
 made using [wasm-pack](https://github.com/rustwasm/wasm-pack) & [create-wasm-app](https://github.com/rustwasm/create-wasm-app)
 
 <img src="docs/screenshot-iphone.png" alt="The app running on an iPhone" width="300">
